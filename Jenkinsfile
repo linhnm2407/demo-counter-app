@@ -2,11 +2,6 @@ pipeline{
     
     agent any 
     
-    tools { 
-      maven 'MAVEN_HOME' 
-      jdk 'JAVA_HOME' 
-    }
-    
     stages {
         
         stage('Git Checkout'){
@@ -63,16 +58,18 @@ pipeline{
                     
                 }
             }
-            stage('Quality Gate Status'){
+        stage('Quality Gate Status'){
                 
-                steps{
+            steps{
                     
-                    script{
+                script{
                         
-                        waitForQualityGate abortPipeline: false, credentialsId: 'sonar-api'
-                    }
+                    waitForQualityGate abortPipeline: false, credentialsId: 'sonar-api'
                 }
             }
         }
-        
+    }
+    def mvnHome = tool name: 'maven-3.8.6', type: 'maven'
+                    sh "${mvnHome}/bin/mvn package"
 }
+
