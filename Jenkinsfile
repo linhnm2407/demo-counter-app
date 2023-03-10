@@ -64,12 +64,10 @@ pipeline{
                     
                 script{
                         
-                    waitForQualityGate abortPipeline: false, credentialsId: 'sonar-api'
+                    waitForQualityGate abortPipeline: false, credentialsId: 'sonar-api-key'
                 }
             }
         }
     }
-    def mvnHome = tool name: 'maven-3.8.6', type: 'maven'
-                    sh "${mvnHome}/bin/mvn package"
 }
 
